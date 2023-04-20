@@ -68,7 +68,7 @@ async function showZones(url) {
 }
 showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
 
-//Funktion fürr Sehenswürdigkeiten
+//Funktion für Sehenswürdigkeiten
 async function showSights(url) {
     let response = await fetch(url);
     console.log(response)
