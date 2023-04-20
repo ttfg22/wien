@@ -78,7 +78,7 @@ async function showSights(url) {
             let prop = feature.properties;
             layer.bindPopup(`
             <img src="${prop.THUMBNAIL}" alt="*">
-            <h4> <a href="${prop.WEITERE_INF}" target="Wien">${prop.NAME}</a></h4>
+            <h4> <a href="${prop.WEITERE_INF}" target="blank">${prop.NAME}</a></h4>
             <address>${prop.ADRESSE}</address>
             `);
             console.log(feature.properties)
