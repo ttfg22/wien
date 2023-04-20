@@ -16,14 +16,14 @@ let map = L.map("map").setView([
 let themaLayer = {
     stops:L.featureGroup(),
     lines:L.featureGroup(),
-    zones:L.featureGroup(),
+    zones:L.featureGroup().addTo(map),
     sights:L.featureGroup()
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
 let layerControl = L.control.layers({
-    "BasemapAT Grau": L.tileLayer.provider("BasemapAT.grau").addTo(map),
-    "BasemapAT Standard": L.tileLayer.provider("BasemapAT.basemap"),
+    "BasemapAT Grau": L.tileLayer.provider("BasemapAT.grau"),
+    "BasemapAT Standard": L.tileLayer.provider("BasemapAT.basemap").addTo(map),
     "BasemapAT High-DPI": L.tileLayer.provider("BasemapAT.highdpi"),
     "BasemapAT Gelände": L.tileLayer.provider("BasemapAT.terrain"),
     "BasemapAT Oberfläche": L.tileLayer.provider("BasemapAT.surface"),
@@ -46,8 +46,7 @@ async function showStops(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(map);
-    console.log(url,jsondata)
+    L.geoJSON(jsondata).addTo(themaLayer.stops);
 }
 showStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
 
@@ -56,8 +55,7 @@ async function showLines(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(map);
-    console.log(url,jsondata)
+    L.geoJSON(jsondata).addTo(themaLayer.lines);
 }
 showLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
 
@@ -66,8 +64,7 @@ async function showZones(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(map);
-    console.log(url,jsondata)
+    L.geoJSON(jsondata).addTo(themaLayer.zones);
 }
 showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
 
@@ -76,8 +73,7 @@ async function showSights(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(map);
-    console.log(url,jsondata)
+    L.geoJSON(jsondata).addTo(themaLayer.sights);
 }
 showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
