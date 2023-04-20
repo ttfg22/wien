@@ -32,3 +32,16 @@ L.marker([
 L.control.scale({
     imperial: false,
 }).addTo(map);
+
+async function showSTOPS(url) {
+    let response = await fetch(url);
+    console.log(response)
+    let jsondata = await response.json();
+    L.geoJSON(jsondata).addTo(map);
+    console.log(url,jsondata)
+}
+
+showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json", 62)
+showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
+showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
+showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
