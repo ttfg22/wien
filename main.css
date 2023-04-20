@@ -47,6 +47,7 @@ footer {
     margin-top: 0.5em;
 }
 
+/*die Links werden nebeneinander angezeigt und nicht untereinander*/
 footer nav {
     display: inline-block;
 }

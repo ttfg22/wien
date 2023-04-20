@@ -12,7 +12,7 @@ let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
 ], 12);
 
-// Hintergrundlayer
+// Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
 let layerControl = L.control.layers({
     "BasemapAT Grau": L.tileLayer.provider("BasemapAT.grau").addTo(map),
     "BasemapAT Standard": L.tileLayer.provider("BasemapAT.basemap"),
