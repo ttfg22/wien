@@ -16,8 +16,8 @@ let map = L.map("map").setView([
 let themaLayer = {
     stops:L.featureGroup(),
     lines:L.featureGroup(),
-    zones:L.featureGroup().addTo(map),
-    sights:L.featureGroup()
+    zones:L.featureGroup(),
+    sights:L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
@@ -73,7 +73,13 @@ async function showSights(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
-    L.geoJSON(jsondata).addTo(themaLayer.sights);
+    L.geoJSON(jsondata,{
+        onEachFeature: function(feature,layer){
+            let prop = feature.properties;
+            layer.bindPopup(prop.NAME);
+            console.log(feature.properties)
+        }
+    }).addTo(themaLayer.sights);
 }
 showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
