@@ -33,15 +33,42 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
-async function showSTOPS(url) {
+//Funktion für Bushaltestellen
+async function showStops(url) {
     let response = await fetch(url);
     console.log(response)
     let jsondata = await response.json();
     L.geoJSON(jsondata).addTo(map);
     console.log(url,jsondata)
 }
+showStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
 
-showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json", 62)
-showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
-showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
-showSTOPS("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
+//Funktion für Buslinien 
+async function showLines(url) {
+    let response = await fetch(url);
+    console.log(response)
+    let jsondata = await response.json();
+    L.geoJSON(jsondata).addTo(map);
+    console.log(url,jsondata)
+}
+showLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
+
+//Funktion für Fußgängerzonen 
+async function showZones(url) {
+    let response = await fetch(url);
+    console.log(response)
+    let jsondata = await response.json();
+    L.geoJSON(jsondata).addTo(map);
+    console.log(url,jsondata)
+}
+showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
+
+//Funktion fürr Sehenswürdigkeiten
+async function showSights(url) {
+    let response = await fetch(url);
+    console.log(response)
+    let jsondata = await response.json();
+    L.geoJSON(jsondata).addTo(map);
+    console.log(url,jsondata)
+}
+showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
