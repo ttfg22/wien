@@ -64,14 +64,21 @@ async function showLines(url) {
     let jsondata = await response.json();
     let lineNames = {};
     let lineColours = {
-        1: "Red Line",
-        2: "Yellow Line",
-        3: "Blue Line",
-        4: "Green Line",
-        5: "Grey Line",
-        6: "Orange Line"
+        1: "#FF4136",//Red Line
+        2: "#FFDC00",//Yellow Line
+        3: "#0074D9",//Blue Line
+        4: "#2ECC40", //Green Line
+        5: "#AAAAAA",//Grey Line
+        6: "#FF851B" //Orange Line
     }
     L.geoJSON(jsondata, {
+        style:function (feature) {
+        return {
+            color: lineColours[feature.properties.LINE_ID],
+            weight:3,
+            dashArray:[10,6]
+        };
+    },
         onEachFeature: function (feature, layer) {
             let prop = feature.properties;
             layer.bindPopup(`
