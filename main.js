@@ -10,16 +10,16 @@ let stephansdom = {
 // Karte initialisieren
 let map = L.map("map").setView([
     stephansdom.lat, stephansdom.lng
-], 12);
+], 15);
 
 map.addControl(new L.Control.Fullscreen());
 
 // thematische Layer 
 let themaLayer = {
     stops: L.featureGroup(),
-    lines: L.featureGroup(),
+    lines: L.featureGroup().addTo(map),
     zones: L.featureGroup(),
-    sights: L.featureGroup().addTo(map)
+    sights: L.featureGroup()
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
