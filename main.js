@@ -19,7 +19,8 @@ let themaLayer = {
     stops: L.featureGroup(),
     lines: L.featureGroup(),
     zones: L.featureGroup(),
-    sights: L.featureGroup().addTo(map)
+    sights: L.featureGroup(),
+    hotels:L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
@@ -35,7 +36,8 @@ let layerControl = L.control.layers({
     "Wien Haltestellen": themaLayer.stops,
     "Wien Linien": themaLayer.lines,
     "Wien Fußgängerzonen": themaLayer.zones,
-    "Wien Sehenswürdigkeiten": themaLayer.sights
+    "Wien Sehenswürdigkeiten": themaLayer.sights,
+    "Wien Hotels":themaLayer.hotels
 }).addTo(map);
 
 // Maßstab
@@ -151,3 +153,32 @@ async function showSights(url) {
 }
 showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
+//Funktion für Hotels und UNterkünfte 
+async function showHotels(url) {
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    L.geoJSON(jsondata, {
+        pointToLayer: function(feature, latlng) {
+            return L.marker(latlng,{
+                icon:L.icon({
+                    iconUrl: 'icons/hotel.png',
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37]
+                })
+            });
+        },
+        onEachFeature: function (feature, layer) {
+            let prop = feature.properties;
+            layer.bindPopup(`
+            <h3> ${prop.BETRIEB}<h3>
+            <h4> ${prop.BETRIEBSART_TXT} und ${prop.KATEGORIE_TXT} <br><h4>
+            <hr>
+            <address>${prop.ADRESSE}</address>
+            <p> ${prop.KONTAKT_TEL} </p>
+            <a href=${prop.KONTAKT_EMAIL}> ${prop.KONTAKT_EMAIL}</a><br>
+            <a href=${prop.KONTAKT_WEBLINK1}> ${prop.WEBLINK1}</a>
+            `);
+        }
+    }).addTo(themaLayer.hotels);
+}
+showHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
