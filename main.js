@@ -17,9 +17,9 @@ map.addControl(new L.Control.Fullscreen());
 // thematische Layer 
 let themaLayer = {
     stops: L.featureGroup(),
-    lines: L.featureGroup().addTo(map),
+    lines: L.featureGroup(),
     zones: L.featureGroup(),
-    sights: L.featureGroup()
+    sights: L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
