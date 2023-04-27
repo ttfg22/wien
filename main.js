@@ -86,7 +86,6 @@ async function showZones(url) {
             <p> <i class="fa-sharp fa-regular fa-clock"></i> ${prop.ZEITRAUM || "dauerhaft geöffnet"} <br><br>
             <i class="fa-solid fa-circle-info"></i> ${prop.AUSN_TEXT||"keine Ausnahmen"}</p>
             `);
-            console.log(prop)
         }
     }).addTo(themaLayer.zones);
 }
@@ -95,7 +94,6 @@ showZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 //Funktion für Sehenswürdigkeiten
 async function showSights(url) {
     let response = await fetch(url);
-    //console.log(response)
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
         onEachFeature: function (feature, layer) {
@@ -105,7 +103,6 @@ async function showSights(url) {
             <h4> <a href="${prop.WEITERE_INF}" target="blank">${prop.NAME}</a></h4>
             <address>${prop.ADRESSE}</address>
             `);
-            //console.log(feature.properties)
         }
     }).addTo(themaLayer.sights);
 }
