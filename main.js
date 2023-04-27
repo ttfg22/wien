@@ -176,7 +176,7 @@ async function showHotels(url) {
             Addresse:${prop.ADRESSE}<br>
             Tel.: <a href="tel:${prop.KONTAKT_TEL}">${prop.KONTAKT_TEL}</a><br>
             Email:<a href="mailto:${prop.KONTAKT_EMAIL}"> ${prop.KONTAKT_EMAIL}</a><br>
-            Web:<a href=${prop.KONTAKT_WEBLINK1}> ${prop.WEBLINK1}</a>
+            <a href=${prop.KONTAKT_WEBLINK1}> Homepage</a>
             `);
         }
     }).addTo(themaLayer.hotels);
