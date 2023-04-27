@@ -86,7 +86,6 @@ async function showLines(url) {
             <p> <i class="fa-regular fa-circle-stop"></i> ${prop.FROM_NAME} <br> <i class="fa-solid fa-arrow-down"></i><br><i class="fa-regular fa-circle-stop"></i> ${prop.TO_NAME}</p>
             `);
             lineNames[prop.LINE_ID] = prop.LINE_NAME
-            console.log(lineNames)
         }
     }).addTo(themaLayer.lines);
 }
@@ -97,6 +96,14 @@ async function showZones(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
+        style:function (feature) {
+            return {
+                color: "#F012BE ",
+                weight:1,
+                opacity:0.4,
+                fillOpacity:0.1
+            };
+        },
         onEachFeature: function (feature, layer) {
             let prop = feature.properties;
             layer.bindPopup(`
