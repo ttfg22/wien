@@ -25,11 +25,11 @@ let themaLayer = {
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
 let layerControl = L.control.layers({
     "BasemapAT Grau": L.tileLayer.provider("BasemapAT.grau"),
-    "BasemapAT Standard": L.tileLayer.provider("BasemapAT.basemap").addTo(map),
+    "BasemapAT Standard": L.tileLayer.provider("BasemapAT.basemap"),
     "BasemapAT High-DPI": L.tileLayer.provider("BasemapAT.highdpi"),
     "BasemapAT Gelände": L.tileLayer.provider("BasemapAT.terrain"),
     "BasemapAT Oberfläche": L.tileLayer.provider("BasemapAT.surface"),
-    "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
+    "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto").addTo(map),
     "BasemapAT Beschriftung": L.tileLayer.provider("BasemapAT.overlay")
 }, {
     "Wien Haltestellen": themaLayer.stops,
@@ -62,6 +62,15 @@ showStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function showLines(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
+    let lineNames = {};
+    let lineColours = {
+        1: "Red Line",
+        2: "Yellow Line",
+        3: "Blue Line",
+        4: "Green Line",
+        5: "Grey Line",
+        6: "Orange Line"
+    }
     L.geoJSON(jsondata, {
         onEachFeature: function (feature, layer) {
             let prop = feature.properties;
@@ -69,6 +78,8 @@ async function showLines(url) {
             <h4> <b><i class="fa-solid fa-bus"></i> ${prop.LINE_NAME} </b> </h4>
             <p> <i class="fa-regular fa-circle-stop"></i> ${prop.FROM_NAME} <br> <i class="fa-solid fa-arrow-down"></i><br><i class="fa-regular fa-circle-stop"></i> ${prop.TO_NAME}</p>
             `);
+            lineNames[prop.LINE_ID] = prop.LINE_NAME
+            console.log(lineNames)
         }
     }).addTo(themaLayer.lines);
 }
@@ -84,7 +95,7 @@ async function showZones(url) {
             layer.bindPopup(`
             <h4> <b>Fußgängerzone ${prop.ADRESSE}</b> </h4>
             <p> <i class="fa-sharp fa-regular fa-clock"></i> ${prop.ZEITRAUM || "dauerhaft geöffnet"} <br><br>
-            <i class="fa-solid fa-circle-info"></i> ${prop.AUSN_TEXT||"keine Ausnahmen"}</p>
+            <i class="fa-solid fa-circle-info"></i> ${prop.AUSN_TEXT || "keine Ausnahmen"}</p>
             `);
         }
     }).addTo(themaLayer.zones);
