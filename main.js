@@ -51,7 +51,7 @@ async function showStops(url) {
         pointToLayer: function(feature, latlng) {
             return L.marker(latlng,{
                 icon:L.icon({
-                    iconUrl: 'icons/busstop.png',
+                    iconUrl: `icons/busstop_${feature.properties.LINE_ID}.png`,
                     iconAnchor: [16, 37],
                     popupAnchor: [0, -37]
                 })
