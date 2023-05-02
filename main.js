@@ -20,7 +20,7 @@ let themaLayer = {
     lines: L.featureGroup(),
     zones: L.featureGroup(),
     sights: L.featureGroup(),
-    hotels:L.featureGroup().addTo(map)
+    hotels: L.featureGroup().addTo(map)
 }
 
 // Hintergrundlayer (add to map bei dem Layer, der zuerst angezeigt werden soll)
@@ -37,7 +37,7 @@ let layerControl = L.control.layers({
     "Wien Linien": themaLayer.lines,
     "Wien Fußgängerzonen": themaLayer.zones,
     "Wien Sehenswürdigkeiten": themaLayer.sights,
-    "Wien Hotels":themaLayer.hotels
+    "Wien Hotels": themaLayer.hotels
 }).addTo(map);
 
 // Maßstab
@@ -50,9 +50,9 @@ async function showStops(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
-        pointToLayer: function(feature, latlng) {
-            return L.marker(latlng,{
-                icon:L.icon({
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+                icon: L.icon({
                     iconUrl: `icons/busstop_${feature.properties.LINE_ID}.png`,
                     iconAnchor: [16, 37],
                     popupAnchor: [0, -37]
@@ -83,13 +83,13 @@ async function showLines(url) {
         6: "#FF851B" //Orange Line
     }
     L.geoJSON(jsondata, {
-        style:function (feature) {
-        return {
-            color: lineColours[feature.properties.LINE_ID],
-            weight:3,
-            dashArray:[10,6]
-        };
-    },
+        style: function (feature) {
+            return {
+                color: lineColours[feature.properties.LINE_ID],
+                weight: 3,
+                dashArray: [10, 6]
+            };
+        },
         onEachFeature: function (feature, layer) {
             let prop = feature.properties;
             layer.bindPopup(`
@@ -107,12 +107,12 @@ async function showZones(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
-        style:function (feature) {
+        style: function (feature) {
             return {
                 color: "#F012BE ",
-                weight:1,
-                opacity:0.4,
-                fillOpacity:0.1
+                weight: 1,
+                opacity: 0.4,
+                fillOpacity: 0.1
             };
         },
         onEachFeature: function (feature, layer) {
@@ -132,9 +132,9 @@ async function showSights(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
-        pointToLayer: function(feature, latlng) {
-            return L.marker(latlng,{
-                icon:L.icon({
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+                icon: L.icon({
                     iconUrl: 'icons/photo.png',
                     iconAnchor: [16, 37],
                     popupAnchor: [0, -37]
@@ -153,32 +153,79 @@ async function showSights(url) {
 }
 showSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
-//Funktion für Hotels und UNterkünfte 
+//Funktion für Hotels und Unterkünfte 
 async function showHotels(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
-        pointToLayer: function(feature, latlng) {
-            return L.marker(latlng,{
-                icon:L.icon({
+        pointToLayer: function (feature, latlng) {
+            if (feature.properties.KATEGORIE_TXT === "nicht kategorisiert") {
+            return L.marker(latlng, {
+                icon: L.icon({
                     iconUrl: 'icons/hotel.png',
+                    //iconSize: [32, 37],
                     iconAnchor: [16, 37],
-                    popupAnchor: [0, -37]
+                    popupAnchor: [0, -37],
                 })
-            });
+            })
+            }
+            else if (feature.properties.KATEGORIE_TXT === '1*') {
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "icons/hotel_1star.png",
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                })
+                } else if (feature.properties.KATEGORIE_TXT === '2*') {
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "icons/hotel_2stars.png",
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                })
+                } else if (feature.properties.KATEGORIE_TXT === '3*') {
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "icons/hotel_3stars.png",
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                })
+                } else if (feature.properties.KATEGORIE_TXT === '4*') {
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "icons/hotel_4stars.png",
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                })
+                } else {
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "icons/hotel_5stars.png",
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                })
+                };
+
         },
         onEachFeature: function (feature, layer) {
-            let prop = feature.properties;
-            layer.bindPopup(`
-            <h3> ${prop.BETRIEB}<h3>
-            <h4> ${prop.BETRIEBSART_TXT} und ${prop.KATEGORIE_TXT} <br><h4>
-            <hr>
-            Addresse:${prop.ADRESSE}<br>
-            Tel.: <a href="tel:${prop.KONTAKT_TEL}">${prop.KONTAKT_TEL}</a><br>
-            Email:<a href="mailto:${prop.KONTAKT_EMAIL}"> ${prop.KONTAKT_EMAIL}</a><br>
-            <a href=${prop.KONTAKT_WEBLINK1}> Homepage</a>
-            `);
+        let prop = feature.properties;
+        layer.bindPopup(`
+                <h3> ${prop.BETRIEB}</h3>
+                <h4> ${prop.BETRIEBSART_TXT} und ${prop.KATEGORIE_TXT} </h4>
+                <hr>
+                Addr.:${prop.ADRESSE} <br>
+                Tel.: <a href ="tel:${prop.KONTAKT_TEL}" >${prop.KONTAKT_TEL} </a> <br>
+                Email: <a href="mailto:${prop.KONTAKT_EMAIL}"> ${prop.KONTAKT_EMAIL} </a> <br>
+                Website: <a href="${prop.WEBLINK1}"> ${prop.WEBLINK1}</a>
+                `);
         }
     }).addTo(themaLayer.hotels);
-}
+
+
+} 
 showHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
