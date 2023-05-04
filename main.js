@@ -235,3 +235,6 @@ async function showHotels(url) {
 
 } 
 showHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
+
+//Hash hinzzufügen 
+let hash = new L.Hash(map);
