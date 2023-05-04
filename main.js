@@ -159,6 +159,10 @@ async function showHotels(url) {
     let jsondata = await response.json();
     L.geoJSON(jsondata, {
         pointToLayer: function (feature, latlng) {
+            //alternative Variante für den for Loop 
+            //let prop = feature.properties
+            //let hotelIcon = ""
+            //jetzt werden die if else statements formuliert und die let hotelIcon festgestellt
             if (feature.properties.KATEGORIE_TXT === "nicht kategorisiert") {
             return L.marker(latlng, {
                 icon: L.icon({
