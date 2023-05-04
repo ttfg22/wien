@@ -240,4 +240,4 @@ showHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&ver
 let hash = new L.Hash(map);
 
 //add Mini Map 
-let miniMap = new L.Control.MiniMap(L.tileLayer.provider("OpenStreetMap.DE")).addTo(map);
+let miniMap = new L.Control.MiniMap(L.tileLayer.provider("OpenStreetMap.DE"),{toggleDisplay:true,minimized:true}).addTo(map);
